@@ -1,11 +1,13 @@
 # Define the tools 
+# Need to pip install these tools frist
 FORMATTER = nbqa black
 LINTER = nbqa pylint
 STYLE_CHECKER = nbqa flake8
 
-# Find all Jupyter Notebooks recursively
-NOTEBOOKS := $(shell find ./notebooks/ -name "*.ipynb")
-PYTHON_SCRIPTS := $(shell find ./src/ -name "*.py")
+# Find all Jupyter Notebooks and Python scripts
+NOTEBOOKS := $(shell find ./ -name "*.ipynb" 2>/dev/null)
+PYTHON_SCRIPTS := $(shell find ./ -name "*.py" -not -path ".venv/*" -not -path "*/__pycache__/*")
+
 
 install:
 	pip install --upgrade pip &&\
@@ -13,9 +15,12 @@ install:
 
 # Format all notebooks and python scripts
 format:
-	@echo "Formatting all notebooks..."
-	@$(FORMATTER) $(NOTEBOOKS)
-
+	@if [ -n "$(NOTEBOOKS)" ]; then \
+		echo "Formatting all notebooks..."; \
+		$(FORMATTER) $(NOTEBOOKS); \
+	else \
+		echo "No notebooks found, skipping notebook formatting."; \
+	fi
 	@echo "Formatting all python scripts..."
 	@black $(PYTHON_SCRIPTS)
 
