@@ -5,8 +5,8 @@ LINTER = nbqa pylint
 STYLE_CHECKER = nbqa flake8
 
 # Find all Jupyter Notebooks and Python scripts
-NOTEBOOKS := $(shell find ./ -name "*.ipynb" 2>/dev/null)
-PYTHON_SCRIPTS := $(shell find ./ -name "*.py" -not -path ".venv/*" -not -path "*/__pycache__/*")
+NOTEBOOKS := $(shell find . -name "*.ipynb" 2>/dev/null)
+PYTHON_SCRIPTS := $(shell find . -name "*.py" -not -path ".venv/*" -not -path "*/__pycache__/*")
 
 
 install:
@@ -36,3 +36,4 @@ check-style:
 
 # Run all tasks
 all: install format lint check-style
+
